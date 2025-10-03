@@ -1,0 +1,27 @@
+{
+  "name": "OpinApp - Coleta Inteligente de Feedbacks",
+  "short_name": "OpinApp",
+  "description": "Colete feedbacks dos seus clientes com análise inteligente por IA e transforme OpinStars em insights valiosos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "pt-BR",
+  "dir": "ltr"
+}

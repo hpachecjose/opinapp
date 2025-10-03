@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model channels {
+  id                Int     @id @default(autoincrement())
+  form_id           Int
+  tipo              String? @db.VarChar(20)
+  link              String?
+  estatisticas_json Json?
+  forms             forms   @relation(fields: [form_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_channels_form")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model feedbacks {
+  id                Int       @id @default(autoincrement())
+  form_id           Int
+  opinstars         Int?      @db.SmallInt
+  comentario_texto  String?
+  modo              String?   @db.VarChar(20)
+  nome_cliente      String?   @db.VarChar(100)
+  email_cliente     String?   @db.VarChar(100)
+  data_envio        DateTime? @default(now()) @db.Timestamp(6)
+  resultado_ia_json Json?
+  status_moderacao  String?   @db.VarChar(20)
+  forms             forms     @relation(fields: [form_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_feedbacks_form")
+}
+
+model forms {
+  id           Int         @id @default(autoincrement())
+  nome         String?     @db.VarChar(100)
+  usuario_id   Int
+  campos_json  Json?
+  status       String?     @db.VarChar(20)
+  data_criacao DateTime?   @default(now()) @db.Timestamp(6)
+  channels     channels[]
+  feedbacks    feedbacks[]
+  users        users       @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_forms_usuario")
+  reports      reports[]
+}
+
+model integrations {
+  id          Int     @id @default(autoincrement())
+  usuario_id  Int
+  tipo        String? @db.VarChar(50)
+  config_json Json?
+  users       users   @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_integrations_usuario")
+}
+
+model logs {
+  id         Int       @id @default(autoincrement())
+  usuario_id Int?
+  acao       String?
+  data_hora  DateTime? @default(now()) @db.Timestamp(6)
+  ip         String?   @db.VarChar(45)
+  users      users?    @relation(fields: [usuario_id], references: [id], onUpdate: NoAction, map: "fk_logs_usuario")
+}
+
+model reports {
+  id              Int       @id @default(autoincrement())
+  form_id         Int
+  usuario_id      Int
+  tipo            String?   @db.VarChar(20)
+  data_geracao    DateTime? @default(now()) @db.Timestamp(6)
+  caminho_arquivo String?
+  forms           forms     @relation(fields: [form_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_reports_form")
+  users           users     @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_reports_usuario")
+}
+
+model settings {
+  id         Int    @id @default(autoincrement())
+  chave      String @unique @db.VarChar(100)
+  valor_json Json?
+}
+
+model users {
+  id            Int            @id @default(autoincrement())
+  nome          String?        @db.VarChar(100)
+  email         String         @unique @db.VarChar(100)
+  senha_hash    String         @db.VarChar(255)
+  empresa       String?        @db.VarChar(100)
+  plano         String?        @db.VarChar(20)
+  data_cadastro DateTime?      @default(now()) @db.Timestamp(6)
+  perfil_json   Json?
+  notificacoes  Json?
+  forms         forms[]
+  integrations  integrations[]
+  logs          logs[]
+  reports       reports[]
+}
