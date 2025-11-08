@@ -2,19 +2,28 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Sistema Backend do OpinApp",
-  "main": "index.js",
+  "main": "src/server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test": "node src/dbTest.js",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio"
   },
-  "author": "",
+  "author": "OpinApp Team",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "6.16.2",
     "argon2": "^0.44.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "nodemon": "^3.1.0",
     "prisma": "^6.16.2"
   }
 }

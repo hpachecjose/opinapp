@@ -1,16 +1,18 @@
 // backend/src/dbTest.js
 import { PrismaClient } from "@prisma/client";
+import { hashPassword } from "./utils/hashPassword.js"; // supondo que exista
 
 const prisma = new PrismaClient();
 
 async function main() {
   const existing = await prisma.user.findUnique({ where: { email: "henrique@example.com" } });
   if (!existing) {
+    const hashed = await hashPassword("123456");
     const user = await prisma.user.create({
       data: {
         name: "Henrique",
         email: "henrique@example.com",
-        password: "123456"
+        hashedPassword: hashed   // <--- usar hashedPassword para ficar consistente com server.js
       }
     });
     console.log("Usuário criado:", user);
