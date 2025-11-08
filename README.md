@@ -1,84 +1,132 @@
-# OpinApp v1.0
+# OpinApp
 
-## Descrição do App
+Resumo
+-----
+Aplicação front-end Next.js para visualização e gestão de feedbacks (OpinApp). Implementação atual usa dados simulados (mock) e components UI prontos. Não há backend de autenticação nem mecanismo de recuperação de senha implementado neste repositório — apenas telas e fluxo visual.
 
+Tecnologias
+----------
+- Next.js (app router, React)
+- Tailwind CSS
+- TypeScript / JavaScript (arquivos mistos conforme o projeto)
+- Estrutura: frontend/src/app (páginas e componentes)
 
-## Proposta de valor
-  - Pequenos negócios recebem resumos + relatórios de feedbacks realizados por seus clientes.
-  Estes feedbacks são analisados analisados pela IA da plataforma que traz em forma de resumos, insights para estes negócios que não possuem tempo para fazer tal análise. Com base nessa análise eles tomam das devidas providências para realizar a melhoria. 
-  Esta plataforma coleta feedbacks por meios de links disponibilizados pela plataforma para estes clientes e entrega o resumo via dashboard para os negócios fazer sua leitura.
-  Benefício: O dono do negócio gasta minutos, não horas, para entender o que os clientes estão falando.
+Pré-requisitos
+--------------
+- Node.js 18+ instalado
+- npm ou yarn (preferível npm)
+- Git instalado
 
+Instalação
+----------
+1. Clone o repositório:
+   ```
+   git clone https://github.com/hpachecjose/opinapp.git
+   cd opinapp
+   ```
 
-## Organização das pastas
+2. Instale dependências:
+   ```
+   npm install
+   # ou
+   yarn
+   ```
 
+Como rodar (desenvolvimento)
+----------------------------
+1. Iniciar servidor de desenvolvimento:
+   ```
+   npm run dev
+   # ou
+   yarn dev
+   ```
+2. Abra no navegador:
+   ```
+   http://localhost:3000
+   ```
 
+Build e produção
+-----------------
+1. Build:
+   ```
+   npm run build
+   # ou
+   yarn build
+   ```
+2. Iniciar servidor (produção):
+   ```
+   npm start
+   # ou
+   yarn start
+   ```
 
-## Requisitos Funcionais
--  O OpinApp deve
+Testes
+------
+- Atualmente não há suíte de testes configurada no projeto. Recomenda-se adicionar Jest/React Testing Library para componentes e endpoints futuros.
 
+Estrutura principal de diretórios
+-------------------------------
+- frontend/src/app — páginas (ex.: /dashboard, /forgot)
+- frontend/src/components — componentes (quando presentes)
+- public — assets estáticos (logos, imagens)
+- scripts / configs — (se existirem)
 
-## Requisitos não funcionais
+Funcionalidades implementadas
+-----------------------------
+- Dashboard de exemplo com dados mock (frontend/src/app/dashboard/page.tsx).
+- Página de recuperação de senha (UI) em frontend/src/app/forgot/page.tsx — apenas interface, sem lógica backend.
+- Páginas e componentes UI responsivos em Tailwind.
 
+Estado atual sobre autenticação e recuperação de senha
+-----------------------------------------------------
+- Não existe backend de autenticação nem endpoints de API para login, reset de senha ou envio de e-mail.
+- Fluxo de UI para "Recuperar senha" está presente (frontend/src/app/forgot/page.tsx) mas o handleSubmit faz apenas log no console e altera estado local.
+- Recomenda-se implementar endpoints (ex.: /api/auth/request-reset, /api/auth/reset) e tabela password_resets conforme o plano técnico proposto antes de expor ao público.
 
+Variáveis de ambiente sugeridas (quando implementar backend)
+-----------------------------------------------------------
+- NEXT_PUBLIC_APP_URL=https://app.example.com
+- SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+- DATABASE_URL
+- TOKEN_PEPPER (segredo para hashing de tokens)
+- JWT_SECRET (se usar JWT)
+- RECAPTCHA_SECRET (se usar reCAPTCHA)
 
+Exemplos de uso
+---------------
+- Acesse /dashboard para ver o layout com dados simulados.
+- Acesse /forgot para visualizar o formulário de recuperação (apenas UI).
+- Exemplos de chamadas para quando o backend existir:
+  - POST /api/auth/request-reset { email }
+  - POST /api/auth/validate-token { token }
+  - POST /api/auth/reset { token, newPassword }
 
+Como contribuir
+---------------
+1. Fork + branch:
+   ```
+   git checkout -b feat/descrição-da-feature
+   ```
+2. Adicione mudanças claras e pequenos commits.
+3. Garanta que não há segredos no commit (.env, chaves).
+4. Abra Pull Request descrevendo as mudanças e testes.
+5. Sugestões de boas práticas:
+   - Use ESLint/Prettier
+   - Escreva testes unitários para lógica crítica
+   - Adicione documentação das novas rotas e variáveis de ambiente
 
+Boas práticas de segurança (importante)
+--------------------------------------
+- Nunca commite .env ou chaves. Use .gitignore.
+- Armazene segredos em GitHub Secrets para CI/CD.
+- Implementar HTTPS, HSTS e validações de backend ao adicionar autenticação.
+- Armazenar apenas hash de tokens de reset (nunca token em texto plano).
 
+Contato / Links
+---------------
+- Repositório GitHub: https://github.com/hpachecjose/opinapp
+- Issues / Pull Requests: usar a seção de Issues do repositório para reportar problemas ou sugerir melhorias.
 
-
-
-
-
-
-
-
-
-
-
-## Stackholders (contratantes do serviço)
-- Pequenos negócios locais (ex.: padarias, barbearias, lanchonetes).
-- Lojas virtuais pequenas (e-commerce próprio ou via marketplaces).
-- Comércios locais e não locais (mercadinhos, oficinas, academias, brechós).
-- Pessoas que empreendem na internet (influenciadores, vendedores via Instagram/WhatsApp).
-- Profissionais liberais (advogados, médicos, arquitetos, contadores, psicólogos).
-- Prestadores de serviços (freelancers, professores particulares, técnicos de informática).
-- Pequenas associações/ONGs (pesquisas com membros).
-
-## Por onde esses contrantantes farão o envio dos links com os formulários?
-- Email
-- WhatsApp, Telegram, Marketplace
-- SMS(por meio de links)
-- Balão suspenso no site
-- Redes Sociais
-- Marketplace
-- QR Code físico
-
-## Onde esses contratantes administrarão a plataforma?
-- Smartphone: Android, iOS, outros se houver - Nativamente no sistema operacional
-- Computador Desktop - No navegador
-
-## Arquitetura do projeto
-- Arquitetura de software modular
-
-## Tecnologias utilizadas
-### Frontend
-
-- React Native + Next.js 14
-- Tailwind CSS 4
-- Funcionalidades PWA:offline básico, instalável, push, service workers
-### Backend
-- Microserviços com Node.js e Python(FastAPI)
-- Serviçis principais:Auth, Formulários, Analytics, Dashboard, Notificações
-- Banco:PostgreSQL 18(JSON, full-text, escalável)
-- IA:OpenAI(fase 1), Google Cloud(fase 2), modelos próprios no futuro
-
-## Links de acesso
-- https://discuss.huggingface.co/
-- https://www.youtube.com/watch?v=LIVbtou18XQ
-- https://www.yotpo.com/
-- https://luis-miguel-code.medium.com/criando-um-modelo-de-nlp-do-zero-com-python-5ae278568119
-- https://colab.research.google.com/github/LuisMig-code/NLP-com-Reviews-de-roupas-femininas/blob/main/NLP_Reviews_roupas_femininas.ipynb
-- https://www.kaggle.com/ 
-- https://github.com/Kaggle/kagglehub/blob/main/README.md#kaggledatasetadapterpolars
-- https://hpanel.hostinger.com/ 
+Notas finais
+-----------
+- Este README reflete o estado atual do projeto: frontend focado em UI com dados mockados. Para produção é necessário integrar backend seguro (autenticação, recuperação de senha, gerenciamento de sessões, envio de e-mails) conforme o fluxo técnico proposto.
